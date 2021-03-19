@@ -9,7 +9,7 @@ namespace ESGI.AlgoGen
     {
         public override float Fitness(Individual individual)
         {
-
+            return Random.Range(0, 11f);
         }
     }
 }
