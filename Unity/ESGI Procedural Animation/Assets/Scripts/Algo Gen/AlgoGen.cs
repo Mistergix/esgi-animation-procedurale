@@ -53,6 +53,7 @@ namespace ESGI.AlgoGen
                 for (int j = 0; j < algoGenParams.PopulationSize - algoGenParams.BestKeptCount; j++)
                 {
                     //! if the same parents, the crossover is useless
+                    //TODO generate 2 children
                     Individual parent1 = pop[BiasedWheel(scores)];
                     Individual parent2 = pop[BiasedWheel(scores)];
                     Individual child = Crossover(parent1, parent2);

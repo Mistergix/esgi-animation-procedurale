@@ -26,6 +26,8 @@ namespace ESGI.BlenderPipelineESGI
 
             string intoPath = Path.Combine(assetsDirPath, "EXPORTED CREATURES", $"{creatureId}.obj");
 
+            string pythonPath = Path.Combine(assetsDirPath, "generateCreature.py");
+
             bat = bat
                 .Replace("distanceBetweenLegs", distanceBetweenLegs.ToString())
                 .Replace("kneeLengthX", kneeLength.x.ToString())
@@ -37,6 +39,7 @@ namespace ESGI.BlenderPipelineESGI
                 .Replace("neckLengthY", neckLength.y.ToString())
                 .Replace("headLengthX", headLength.x.ToString())
                 .Replace("headLengthY", headLength.y.ToString())
+                .Replace("pythonPath", $"\"{pythonPath}\"")
                 .Replace("oPath", $"\"{intoPath}\"");
 
             File.WriteAllText(Path.Combine(assetsDirPath, "generateOneCreature.bat"), bat);
