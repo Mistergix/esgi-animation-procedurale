@@ -389,3 +389,4 @@ MonoBehaviour:
   algoGenParams: {fileID: 11400000, guid: 5f9fc8d7871a00743b39ef79962497fe, type: 2}
   fitnessEvaluator: {fileID: 11400000, guid: 7b5d1e60be72e904f9c152e5724b2d13, type: 2}
   bitsPerParameter: 8
+  blenderPipeline: {fileID: 961066646}

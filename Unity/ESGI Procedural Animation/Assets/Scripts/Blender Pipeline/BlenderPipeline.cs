@@ -40,7 +40,7 @@ namespace ESGI.BlenderPipelineESGI
                 .Replace("oPath", $"\"{intoPath}\"");
 
             File.WriteAllText(Path.Combine(assetsDirPath, "generateOneCreature.bat"), bat);
-            AssetDatabase.Refresh();
+            
 
 
             try
@@ -55,12 +55,13 @@ namespace ESGI.BlenderPipelineESGI
                 myProcess.WaitForExit();
                 int ExitCode = myProcess.ExitCode;
                 print(ExitCode);
-                print("ok");
             }
             catch (Exception e)
             {
                 print(e);
             }
+
+            AssetDatabase.Refresh();
         }
     }
 }

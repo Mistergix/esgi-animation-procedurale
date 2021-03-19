@@ -117,4 +117,4 @@ bpy.ops.object.modifier_add(type='MIRROR')
 bpy.context.object.modifiers["Mirror"].use_axis[1] = True
 '''
 
-bpy.ops.export_scene.obj(filepath=argv[10])
+bpy.ops.export_scene.obj(filepath=args[10])

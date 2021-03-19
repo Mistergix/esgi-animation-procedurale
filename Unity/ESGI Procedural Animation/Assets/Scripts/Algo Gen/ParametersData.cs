@@ -7,6 +7,7 @@ namespace ESGI.AlgoGen
     [CreateAssetMenu(menuName = "ESGI/Algo Gen Individual Data")]
     public class ParametersData : ScriptableObject
     {
+        //TODO create a struc , to store the max val, the number of bits, the importance in the fitness, if it should be min or max
         [SerializeField, Min(0)] private int numberOfParameters = 6;
         [SerializeField, Min(0)] private float maxDistanceBetweenLegs;
         [SerializeField, Min(0)] private float maxKneeLengthX;

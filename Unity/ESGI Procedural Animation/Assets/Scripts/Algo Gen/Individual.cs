@@ -31,10 +31,11 @@ namespace ESGI.AlgoGen
 
             int begin = 0;
 
-            for (int i = 0; i <= nbBits / nbBitsPerParam; i++)
+            for (int i = 0; i < nbBits / nbBitsPerParam; i++)
             {
                 List<bool> bools = genotype.Skip(begin).Take(nbBitsPerParam).ToList();
                 values.Add(Interpret(bools));
+                begin += nbBitsPerParam;
             }
 
             return values;

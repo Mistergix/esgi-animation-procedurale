@@ -65,6 +65,7 @@ namespace ESGI.AlgoGen
             }
 
             List<int> interpretedInts = currentBest.InterpretedGenotype(bitsPerParameter);
+            Debug.Log(interpretedInts);
             List<float> parameters = new List<float>() { parametersData.MaxDistanceBetweenLegs, parametersData.MaxKneeLengthX, parametersData.MaxKneeLengthY, parametersData.MaxFootLengthX, parametersData.MaxFootLengthY, parametersData.MaxDistanceHead, parametersData.MaxNeckLengthX, parametersData.MaxNeckLengthY, parametersData.MaxHeadLengthX, parametersData.MaxHeadLengthY };
             List<float> interpreted = interpretedInts.Select((val, index) => MapValue(val, parameters[index])).ToList();
 
