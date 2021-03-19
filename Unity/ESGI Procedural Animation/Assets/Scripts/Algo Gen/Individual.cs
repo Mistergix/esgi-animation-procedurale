@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System;
 
 namespace ESGI.AlgoGen
 {
@@ -21,19 +22,45 @@ namespace ESGI.AlgoGen
 
         private void RandomIndividual()
         {
-            genotype = Enumerable.Repeat(false, nbBits).Select(bit => Random.Range(0, 2) == 0).ToList();
+            genotype = Enumerable.Repeat(false, nbBits).Select(bit => UnityEngine.Random.Range(0, 2) == 0).ToList();
         }
 
-        public override string ToString()
+        public List<int> InterpretedGenotype(int nbBitsPerParam)
+        {
+            List<int> values = new List<int>();
+
+            int begin = 0;
+
+            for (int i = 0; i <= nbBits / nbBitsPerParam; i++)
+            {
+                List<bool> bools = genotype.Skip(begin).Take(nbBitsPerParam).ToList();
+                values.Add(Interpret(bools));
+            }
+
+            return values;
+        }
+
+        private int Interpret(List<bool> bools)
+        {
+            string res = ToString(bools);
+            return Convert.ToInt32(res, 2);
+        }
+
+        private string ToString(List<bool> bools)
         {
             StringBuilder sb = new StringBuilder();
 
-            foreach (bool bit in genotype)
+            foreach (bool bit in bools)
             {
                 sb.Append(bit ? "1" : "0");
             }
 
             return sb.ToString();
+        }
+
+        public override string ToString()
+        {
+            return ToString(genotype);
         }
 
         internal Individual Clone()
@@ -52,7 +79,7 @@ namespace ESGI.AlgoGen
         {
             for (int i = 0; i < nbBits; i++)
             {
-                if(Random.Range(0f, 1f) < mutationRate)
+                if(UnityEngine.Random.Range(0f, 1f) < mutationRate)
                 {
                     genotype[i] = !genotype[i];
                 }

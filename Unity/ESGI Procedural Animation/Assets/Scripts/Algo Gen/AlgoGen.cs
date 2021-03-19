@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using NaughtyAttributes;
 using ESGI.Utilities;
+using ESGI.BlenderPipelineESGI;
 using System.Linq;
 
 namespace ESGI.AlgoGen
@@ -13,12 +14,15 @@ namespace ESGI.AlgoGen
         [SerializeField, Required, Expandable] private AlgoGenParams algoGenParams;
         [SerializeField, Required] private FitnessEvaluatorBase fitnessEvaluator;
         [SerializeField, Range(1, 32)] private int bitsPerParameter;
+        [SerializeField, Required] private BlenderPipeline blenderPipeline;
 
         private int maxValBinary;
 
         private int numberOfBits;
 
         private List<Individual> pop;
+
+        private Individual currentBest;
 
         private void Start()
         {
@@ -43,6 +47,8 @@ namespace ESGI.AlgoGen
                 List<Individual> nextGen = new List<Individual>();
                 Elitism(scores, nextGen);
 
+                currentBest = nextGen[0];
+
                 for (int j = 0; j < algoGenParams.PopulationSize - algoGenParams.BestKeptCount; j++)
                 {
                     //! if the same parents, the crossover is useless
@@ -56,6 +62,20 @@ namespace ESGI.AlgoGen
 
                 pop = nextGen;
             }
+
+            List<int> interpretedInts = currentBest.InterpretedGenotype(bitsPerParameter);
+            List<float> interpreted = interpretedInts.
+
+            // export unity asset
+            float distanceBetweenLegs;
+            Vector2 kneeLength;
+            Vector2 footLength;
+            float distanceHead;
+            Vector2 neckLength;
+            Vector2 headLength;
+            string creatureId;
+
+            blenderPipeline.CreateProcess(distanceBetweenLegs, kneeLength, footLength, distanceHead, neckLength, headLength, creatureId);
         }
 
         private void Elitism(List<float> scores, List<Individual> nextGen)

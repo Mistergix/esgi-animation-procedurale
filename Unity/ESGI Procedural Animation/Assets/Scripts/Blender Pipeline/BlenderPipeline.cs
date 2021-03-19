@@ -6,15 +6,15 @@ using System;
 using System.IO;
 using UnityEditor;
 
-namespace ESGI.BlenderPipeline
+namespace ESGI.BlenderPipelineESGI
 {
     public class BlenderPipeline : MonoBehaviour
     {
         private void Start()
         {
-            CreateProcess(5, Vector2.one, Vector2.one * 2, 3, Vector2.zero, Vector2.one * 8.8f);
+            
         }
-        private void CreateProcess(float distanceBetweenLegs, Vector2 kneeLength, Vector2 footLength, float distanceHead, Vector2 neckLength, Vector2 headLength)
+        public void CreateProcess(float distanceBetweenLegs, Vector2 kneeLength, Vector2 footLength, float distanceHead, Vector2 neckLength, Vector2 headLength, string creatureId)
         {
             string assetsDirPath = Application.dataPath;
             string projectDirPath = Directory.GetParent(assetsDirPath).FullName;
@@ -24,7 +24,7 @@ namespace ESGI.BlenderPipeline
 
             string bat = File.ReadAllText(finalPath);
 
-            string intoPath = Path.Combine(assetsDirPath, "EXPORTED CREATURES");
+            string intoPath = Path.Combine(assetsDirPath, "EXPORTED CREATURES", $"{creatureId}.obj");
 
             bat = bat
                 .Replace("distanceBetweenLegs", distanceBetweenLegs.ToString())
