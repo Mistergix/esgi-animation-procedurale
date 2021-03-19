@@ -1,0 +1,1 @@
+"C:\Program Files\Blender Foundation\Blender 2.83\blender.exe" --background --python "C:\Users\nicol\Desktop\Animation procédurale\Blender\creaturebmeshvert.py" -- distanceBetweenLegs kneeLengthX kneeLengthY footLengthX footLenghtY distanceHead neckLengthX neckLengthY headLengthX headLengthY oPath
