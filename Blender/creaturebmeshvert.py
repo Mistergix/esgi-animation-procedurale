@@ -8,22 +8,21 @@ argv = argv[argv.index("--") + 1:]  # get all args after "--"
 
 print(argv)  # --> ['example', 'args', '123']
 
-args=argv.split(" ")
 
 bpy.ops.object.select_all(action='SELECT')
 bpy.ops.object.delete(use_global=False, confirm=False)
 
-lengthpair=float(args[0])
+lengthpair=float(argv[0])
 pairnumber=1
-disthead=float(args[5])
-lengthneckx=float(args[6])
-lengthnecky=float(args[7])
-lengthheadx=float(args[8])
-lengthheady=float(args[9])
-lengthlegx=float(args[3])
-lengthlegy=float(args[4])
-lengthkneex=float(args[1])
-lengthkneey=float(args[2])
+disthead=float(argv[5])
+lengthneckx=float(argv[6])
+lengthnecky=float(argv[7])
+lengthheadx=float(argv[8])
+lengthheady=float(argv[9])
+lengthlegx=float(argv[3])
+lengthlegy=float(argv[4])
+lengthkneex=float(argv[1])
+lengthkneey=float(argv[2])
 # Quelques raccourcis
 context = bpy.context
 scene = context.scene
