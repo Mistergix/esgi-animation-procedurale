@@ -12,17 +12,17 @@ print(argv)  # --> ['example', 'args', '123']
 bpy.ops.object.select_all(action='SELECT')
 bpy.ops.object.delete(use_global=False, confirm=False)
 
-lengthpair=float(argv[0])
+lengthpair=float(argv[0].replace(",", "."))
 pairnumber=1
-disthead=float(argv[5])
-lengthneckx=float(argv[6])
-lengthnecky=float(argv[7])
-lengthheadx=float(argv[8])
-lengthheady=float(argv[9])
-lengthlegx=float(argv[3])
-lengthlegy=float(argv[4])
-lengthkneex=float(argv[1])
-lengthkneey=float(argv[2])
+disthead=float(argv[5].replace(",", "."))
+lengthneckx=float(argv[6].replace(",", "."))
+lengthnecky=float(argv[7].replace(",", "."))
+lengthheadx=float(argv[8].replace(",", "."))
+lengthheady=float(argv[9].replace(",", "."))
+lengthlegx=float(argv[3].replace(",", "."))
+lengthlegy=float(argv[4].replace(",", "."))
+lengthkneex=float(argv[1].replace(",", "."))
+lengthkneey=float(argv[2].replace(",", "."))
 # Quelques raccourcis
 context = bpy.context
 scene = context.scene
@@ -116,4 +116,4 @@ bpy.ops.object.modifier_add(type='MIRROR')
 bpy.context.object.modifiers["Mirror"].use_axis[1] = True
 '''
 
-bpy.ops.export_scene.obj(filepath=args[10])
+bpy.ops.export_scene.obj(filepath=argv[10])

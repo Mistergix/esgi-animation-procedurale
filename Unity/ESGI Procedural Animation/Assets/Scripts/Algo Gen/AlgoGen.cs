@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using NaughtyAttributes;
 using ESGI.Utilities;
+using ESGI.BlenderPipelineESGI;
 using System.Linq;
+using System;
 
 namespace ESGI.AlgoGen
 {
@@ -13,12 +15,15 @@ namespace ESGI.AlgoGen
         [SerializeField, Required, Expandable] private AlgoGenParams algoGenParams;
         [SerializeField, Required] private FitnessEvaluatorBase fitnessEvaluator;
         [SerializeField, Range(1, 32)] private int bitsPerParameter;
+        [SerializeField, Required] private BlenderPipeline blenderPipeline;
 
         private int maxValBinary;
 
         private int numberOfBits;
 
         private List<Individual> pop;
+
+        private Individual currentBest;
 
         private void Start()
         {
@@ -43,9 +48,12 @@ namespace ESGI.AlgoGen
                 List<Individual> nextGen = new List<Individual>();
                 Elitism(scores, nextGen);
 
+                currentBest = nextGen[0];
+
                 for (int j = 0; j < algoGenParams.PopulationSize - algoGenParams.BestKeptCount; j++)
                 {
                     //! if the same parents, the crossover is useless
+                    //TODO generate 2 children
                     Individual parent1 = pop[BiasedWheel(scores)];
                     Individual parent2 = pop[BiasedWheel(scores)];
                     Individual child = Crossover(parent1, parent2);
@@ -56,6 +64,27 @@ namespace ESGI.AlgoGen
 
                 pop = nextGen;
             }
+
+            List<int> interpretedInts = currentBest.InterpretedGenotype(bitsPerParameter);
+            Debug.Log(interpretedInts);
+            List<float> parameters = new List<float>() { parametersData.MaxDistanceBetweenLegs, parametersData.MaxKneeLengthX, parametersData.MaxKneeLengthY, parametersData.MaxFootLengthX, parametersData.MaxFootLengthY, parametersData.MaxDistanceHead, parametersData.MaxNeckLengthX, parametersData.MaxNeckLengthY, parametersData.MaxHeadLengthX, parametersData.MaxHeadLengthY };
+            List<float> interpreted = interpretedInts.Select((val, index) => MapValue(val, parameters[index])).ToList();
+
+            // export unity asset
+            float distanceBetweenLegs = interpreted[0];
+            Vector2 kneeLength = new Vector2(interpreted[1], interpreted[2]);
+            Vector2 footLength = new Vector2(interpreted[3], interpreted[4]);
+            float distanceHead = interpreted[5];
+            Vector2 neckLength = new Vector2(interpreted[6], interpreted[7]);
+            Vector2 headLength = new Vector2(interpreted[8], interpreted[9]);
+            string creatureId = generateID();
+
+            blenderPipeline.CreateProcess(distanceBetweenLegs, kneeLength, footLength, distanceHead, neckLength, headLength, creatureId);
+        }
+
+        public string generateID()
+        {
+            return Guid.NewGuid().ToString("N");
         }
 
         private void Elitism(List<float> scores, List<Individual> nextGen)
@@ -83,15 +112,15 @@ namespace ESGI.AlgoGen
 
         private Individual Crossover(Individual parent1, Individual parent2)
         {
-            if(Random.Range(0f, 1f) < algoGenParams.CrossOverRate)
+            if(UnityEngine.Random.Range(0f, 1f) < algoGenParams.CrossOverRate)
             {
                 Individual child = new Individual(parametersData, numberOfBits);
-                int cutPoint = Random.Range(1, numberOfBits - 1);
+                int cutPoint = UnityEngine.Random.Range(1, numberOfBits - 1);
                 child.CrossOver(parent1, parent2, cutPoint);
                 return child;
             }
 
-            return Random.Range(0, 2) == 0 ? parent1.Clone() : parent2.Clone();
+            return UnityEngine.Random.Range(0, 2) == 0 ? parent1.Clone() : parent2.Clone();
         }
 
         private int BiasedWheel(List<float> normalizedScores)
@@ -100,7 +129,7 @@ namespace ESGI.AlgoGen
             for (int i = 0; i < normalizedScores.Count; i++)
             {
                 randomThreshold += normalizedScores[i];
-                if(randomThreshold >= Random.Range(0f, 1f))
+                if(randomThreshold >= UnityEngine.Random.Range(0f, 1f))
                 {
                     return i;
                 }
