@@ -1,0 +1,1 @@
+"C:\Program Files\Blender Foundation\Blender 2.83\blender.exe" --background --python "C:\Users\nicol\Desktop\Animation procédurale\Blender\creaturebmeshvert.py" -- 5 1 1 2 2 3 0 0 8,8 8,8 "C:/Users/nicol/Desktop/Animation procédurale/Unity/ESGI Procedural Animation/Assets\EXPORTED CREATURES"
