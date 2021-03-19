@@ -21,7 +21,7 @@ lengthnecky=float(args[7])
 lengthheadx=float(args[8])
 lengthheady=float(args[9])
 lengthlegx=float(args[3])
-lengthlegx=float(args[4])
+lengthlegy=float(args[4])
 lengthkneex=float(args[1])
 lengthkneey=float(args[2])
 # Quelques raccourcis
