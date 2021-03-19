@@ -77,10 +77,10 @@ for i in range(pairnumber-1):
 #tete
 distneck= bm.verts.new((lengthpair+disthead, 0,-1)) 
 newedge = bm.edges.new([lastvert, distneck])
-lengthpair+=distneck
+lengthpair+=disthead
 
 vertneck=bm.verts.new((lengthpair+lengthneckx, 0,lengthnecky)) 
-newedge = bm.edges.new([lastvert, vertneck])
+newedge = bm.edges.new([distneck, vertneck])
 lengthpair=lengthpair+lengthneckx
 
 verthead =bm.verts.new((lengthpair+lengthheadx, 0,lengthheady)) 
