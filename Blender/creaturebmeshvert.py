@@ -2,16 +2,28 @@ import bpy
 import bmesh
 from mathutils import Vector
 from random import randint, uniform
+import sys
+argv = sys.argv
+argv = argv[argv.index("--") + 1:]  # get all args after "--"
+
+print(argv)  # --> ['example', 'args', '123']
+
+args=argv.split(" ")
 
 bpy.ops.object.select_all(action='SELECT')
 bpy.ops.object.delete(use_global=False, confirm=False)
 
-lengthpair=1
-originallengthpair=lengthpair
+lengthpair=float(args[0])
 pairnumber=1
-lengthneck=1
-lengthhead=1
-
+disthead=float(args[5])
+lengthneckx=float(args[6])
+lengthnecky=float(args[7])
+lengthheadx=float(args[8])
+lengthheady=float(args[9])
+lengthlegx=float(args[3])
+lengthlegx=float(args[4])
+lengthkneex=float(args[1])
+lengthkneey=float(args[2])
 # Quelques raccourcis
 context = bpy.context
 scene = context.scene
@@ -32,15 +44,15 @@ def newleg (depvert,lengthpair):
     newvert1 = bm.verts.new((lengthpair, 0, 0))
     newedge = bm.edges.new([depvert, newvert1])
 
-    vertleg1 = bm.verts.new((lengthpair,1,2))
+    vertleg1 = bm.verts.new((lengthpair,lengthkneex,lengthkneey))
     newedge = bm.edges.new([newvert1, vertleg1])
-    vertleg2 = bm.verts.new((lengthpair,1,-3))
+    vertleg2 = bm.verts.new((lengthpair,lengthkneex,lengthkneey))
     newedge = bm.edges.new([vertleg1, vertleg2])
-    lengthpair+=1
+    lengthpair+=lengthpair
     
     lastvert = bm.verts.new((lengthpair, 0, 0))
     newedge = bm.edges.new([newvert1, lastvert])
-    lengthpair+=1
+    lengthpair+=lengthpair
     
     return lengthpair, lastvert
 
@@ -49,23 +61,29 @@ def newleg (depvert,lengthpair):
 newvert1 = bm.verts.new((lengthpair, 0, 0))
 newedge = bm.edges.new([root, newvert1])
 
-vertleg1 = bm.verts.new((1,1,2))
+vertleg1 = bm.verts.new((1,lengthkneex,lengthkneey))
 newedge = bm.edges.new([newvert1, vertleg1])
-vertleg2 = bm.verts.new((1,1,-3))
+vertleg2 = bm.verts.new((1,lengthlegx,lengthlegy))
 newedge = bm.edges.new([vertleg1, vertleg2])
-lengthpair+=1
+lengthpair+=lengthpair
 
 lastvert = bm.verts.new((lengthpair, 0, 0))
 newedge = bm.edges.new([newvert1, lastvert])
-lengthpair+=1
+lengthpair+=lengthpair
 
-lengthpair, lastvert = newleg(lastvert, lengthpair)
+for i in range(pairnumber-1):
+    lengthpair, lastvert = newleg(lastvert, lengthpair)
 #----------------------------------------------------------
 #tete
-vertneck= bm.verts.new((lengthpair+lengthneck, 0,-1)) 
+distneck= bm.verts.new((lengthpair+disthead, 0,-1)) 
+newedge = bm.edges.new([lastvert, distneck])
+lengthpair+=distneck
+
+vertneck=bm.verts.new((lengthpair+lengthneckx, 0,lengthnecky)) 
 newedge = bm.edges.new([lastvert, vertneck])
-lengthpair+=lengthneck
-verthead =bm.verts.new((lengthpair+lengthhead, 0,2)) 
+lengthpair=lengthpair+lengthneckx
+
+verthead =bm.verts.new((lengthpair+lengthheadx, 0,lengthheady)) 
 newedge = bm.edges.new([vertneck, verthead])
 
 #----------------------------------------------------------
@@ -95,7 +113,9 @@ scene.collection.objects.link(ob)
 
 #----------------------------------------------------------
 '''
-bpy.ops.object.select_all(action='SELECT')
+bpy.data.objects['Thing.005'].select_set(True)
 bpy.ops.object.modifier_add(type='MIRROR')
 bpy.context.object.modifiers["Mirror"].use_axis[1] = True
 '''
+
+bpy.ops.export_scene.obj(filepath=argv[10])
