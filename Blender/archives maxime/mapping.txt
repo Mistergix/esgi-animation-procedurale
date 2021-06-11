@@ -1,0 +1,4 @@
+4 bit: hauteur des jambes, entre 0f et 2f
+1 bit: nombre de phalanges, entre 2 et 3
+2 bit: nombre de parties de corps, entre 1 et 4
+3 bit: largeur du corps, entre 0.1 et 2.0
